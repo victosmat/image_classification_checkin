@@ -8,7 +8,7 @@ import numpy as np
 import random
 from time import sleep
 import cv2
-
+from mtcnn import MTCNN
 
 def extract_face_to_process():
     input_dir = 'Dataset/FaceData/raw'
@@ -123,3 +123,37 @@ def extract_face(image_path):
             faces.append(face)  # Thêm khuôn mặt vào mảng chứa các khuôn mặt
 
     return faces
+
+# def extract_face(image_path):
+#     image_size = 160  # Kích thước ảnh đầu vào
+#     margin = 32  # Kích thước margin
+
+#     frame = cv2.imread(image_path)  # Đọc ảnh đầu vào
+#     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Chuyển đổi sang định dạng màu RGB
+
+#     detector = MTCNN()  # Khởi tạo MTCNN detector
+
+#     detections = detector.detect_faces(frame)  # Sử dụng MTCNN để phát hiện khuôn mặt
+
+#     faces = []  # Khởi tạo mảng chứa các khuôn mặt
+
+#     for detection in detections:  # Duyệt qua các kết quả phát hiện được
+#         confidence = detection['confidence']  # Lấy confidence của kết quả phát hiện
+#         if confidence > 0.7:  # Nếu confidence > 0.7 (hoặc giá trị confidence mong muốn)
+
+#             # Lấy tọa độ bounding box
+#             startX, startY, width, height = detection['box']
+#             endX, endY = startX + width, startY + height
+
+#             margin_x = int((endX - startX) * margin / 100)  # Tính margin theo chiều x
+#             margin_y = int((endY - startY) * margin / 100)  # Tính margin theo chiều y
+#             startX = max(0, startX - margin_x)  # Tính tọa độ bắt đầu của bounding box
+#             startY = max(0, startY - margin_y)  # Tính tọa độ bắt đầu của bounding box
+#             endX = min(frame.shape[1], endX + margin_x)  # Tính tọa độ kết thúc của bounding box
+#             endY = min(frame.shape[0], endY + margin_y)  # Tính tọa độ kết thúc của bounding box
+
+#             face = frame[startY:endY, startX:endX]  # Cắt khuôn mặt từ ảnh đầu vào
+#             face = cv2.resize(face, (image_size, image_size))  # Resize khuôn mặt về kích thước 160x160
+#             faces.append(face)  # Thêm khuôn mặt vào mảng chứa các khuôn mặt
+
+#     return faces
